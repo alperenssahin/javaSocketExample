@@ -92,6 +92,8 @@ class Penguin {
                     qState = 2;
                 }
                 if(question.contains("GoodBye")){
+                    System.out.println("-----Good Bye------");
+
                     out.println("GoodBye");
                     break;
                 }
