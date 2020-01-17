@@ -27,13 +27,16 @@ public class PinguinTest {
         int selectedQuestion = 1;
         try {
             ServerSocket server = new ServerSocket(25565);
+            System.out.println("-----Server Started-----");
             Socket client;
             String clientResponse;
             client = server.accept();
+            System.out.println("-----Client Accepted-----");
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
             out.println(questions.get(selectedQuestion).getQuestion());
             long time = new Date().getTime();
             out.println( questions.get(selectedQuestion).getContent());
+            System.out.println("-----Question Sent-----");
             BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
             while ((clientResponse = in.readLine()) != null) {
@@ -47,6 +50,7 @@ public class PinguinTest {
                     System.out.println(test(3,clientResponse));
                 }
                 System.out.println("request-response time: " + (new Date().getTime() - time) + "ms");
+                System.out.println("-----Test Closing, say good bye-----");
                 out.println("GoodBye");
             }
             out.close();
@@ -69,6 +73,7 @@ class Penguin {
         int qState = 0;
         try {
             socket = new Socket("127.0.0.1", 25565);
+            System.out.println("-----Client Started-----");
         } catch (Exception e) {
             System.out.println("Port error!");
         }
@@ -78,6 +83,8 @@ class Penguin {
         while ((question = in.readLine()) != null) {
             if (qState == 0) {
 //                System.out.println(question);
+                System.out.println("-----Request Interpreter-----");
+
                 if (question.contains("Was ergibt die folgende Summe?")) {
                     qState = 1;
                 }
@@ -89,6 +96,7 @@ class Penguin {
                     break;
                 }
             } else {
+                System.out.println("-----Question Solver-----");
                 if (qState == 1) {
                     String[] arr = question.split(" \\+ ");
                     long sum = 0;
